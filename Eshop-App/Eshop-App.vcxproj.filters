@@ -8,17 +8,98 @@
       <UniqueIdentifier>76ba84fb-8ec9-4450-b5d1-9568431bab97</UniqueIdentifier>
       <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
     </Filter>
-    <Image Include="Assets\Logo.scale-100.png">
+    <Filter Include="Products">
+      <UniqueIdentifier>{e73c55e1-c83c-4b1e-9c60-ada356ec4db2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Users">
+      <UniqueIdentifier>{5ce6b183-75d5-450f-8f43-1bf47114e4ca}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="App.xaml.cpp" />
+    <ClCompile Include="MainPage.xaml.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Product.cpp">
+      <Filter>Products</Filter>
+    </ClCompile>
+    <ClCompile Include="PC.cpp">
+      <Filter>Products</Filter>
+    </ClCompile>
+    <ClCompile Include="Smartphone.cpp">
+      <Filter>Products</Filter>
+    </ClCompile>
+    <ClCompile Include="TV.cpp">
+      <Filter>Products</Filter>
+    </ClCompile>
+    <ClCompile Include="UserBase.cpp">
+      <Filter>Users</Filter>
+    </ClCompile>
+    <ClCompile Include="Administrator.cpp">
+      <Filter>Users</Filter>
+    </ClCompile>
+    <ClCompile Include="Customer.cpp">
+      <Filter>Users</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="App.xaml.h" />
+    <ClInclude Include="MainPage.xaml.h" />
+    <ClInclude Include="PC.h">
+      <Filter>Products</Filter>
+    </ClInclude>
+    <ClInclude Include="Smartphone.h">
+      <Filter>Products</Filter>
+    </ClInclude>
+    <ClInclude Include="TV.h">
+      <Filter>Products</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductBase.h">
+      <Filter>Products</Filter>
+    </ClInclude>
+    <ClInclude Include="UserBase.h">
+      <Filter>Users</Filter>
+    </ClInclude>
+    <ClInclude Include="Administrator.h">
+      <Filter>Users</Filter>
+    </ClInclude>
+    <ClInclude Include="Customer.h">
+      <Filter>Users</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\LockScreenLogo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\SmallLogo.scale-100.png">
+    <Image Include="Assets\SplashScreen.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\StoreLogo.scale-100.png">
+    <Image Include="Assets\Square150x150Logo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\SplashScreen.scale-100.png">
+    <Image Include="Assets\Square44x44Logo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Wide310x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Eshop-App_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="MainPage.xaml" />
   </ItemGroup>
 </Project>
