@@ -6,18 +6,18 @@ public:
 	PC(int serial, double price);
 	int getRam() const;
 	double getCpu() const;
-	string getDiskType() const;
+	char* getDiskType() const;
 	int getDiskSpace() const;
-	string getGpu() const;
+	char* getGpu() const;
 	void setRam(int ram);
 	void setCpu(double cpu);
-	void setDiskType(string diskType);
+	void setDiskType(char* diskType);
 	void setDiskSpace(int diskSpace);
-	void setGpu(string gpu);
+	void setGpu(char* gpu);
 private:
 	int ram;
 	double cpu;
-	string diskType;
+	char* diskType;
 	int diskSpace;
-	string gpu;
+	char* gpu;
 };

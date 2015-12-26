@@ -1,13 +1,11 @@
 #include "pch.h"
 #include "ProductBase.h"
 
+ProductBase::ProductBase() {
+}
 
 ProductBase::ProductBase(int serial, double price) {
 	this->serial = serial;
-	this->model = model;
-	this->manufacturer = manufacturer;
-	this->photoUrl = photoUrl;
-	this->description = description;
 	this->price = price;
 }
 
@@ -15,19 +13,19 @@ int ProductBase::getSerial() {
 	return serial;
 }
 
-string ProductBase::getModel() {
+char* ProductBase::getModel() {
 	return model;
 }
 
-string ProductBase::getManufacturer() {
+char* ProductBase::getManufacturer() {
 	return manufacturer;
 }
 
-string ProductBase::getPhotoUrl() {
+char* ProductBase::getPhotoUrl() {
 	return photoUrl;
 }
 
-string ProductBase::getDescription() {
+char* ProductBase::getDescription() {
 	return description;
 }
 
@@ -39,19 +37,19 @@ void ProductBase::setSerial(int serial) {
 	this->serial = serial;
 }
 
-void ProductBase::setModel(string model) {
+void ProductBase::setModel(char* model) {
 	this->model = model;
 }
 
-void ProductBase::setManufacturer(string manufacturer) {
+void ProductBase::setManufacturer(char* manufacturer) {
 	this->manufacturer = manufacturer;
 }
 
-void ProductBase::setPhotoUrl(string photoUrl) {
+void ProductBase::setPhotoUrl(char* photoUrl) {
 	this->photoUrl = photoUrl;
 }
 
-void ProductBase::setDescription(string description) {
+void ProductBase::setDescription(char* description) {
 	this->description = description;
 }
 

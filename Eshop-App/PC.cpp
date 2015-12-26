@@ -12,7 +12,7 @@ double PC::getCpu() const {
 	return this->cpu;
 }
 
-string PC::getDiskType() const {
+char* PC::getDiskType() const {
 	return this->diskType;
 }
 
@@ -20,7 +20,7 @@ int PC::getDiskSpace() const {
 	return this->diskSpace;
 }
 
-string PC::getGpu() const {
+char* PC::getGpu() const {
 	return this->gpu;
 }
 
@@ -32,7 +32,7 @@ void PC::setCpu(double cpu) {
 	this->cpu = cpu;
 }
 
-void PC::setDiskType(string diskType) {
+void PC::setDiskType(char* diskType) {
 	this->diskType = diskType;
 }
 
@@ -40,6 +40,6 @@ void PC::setDiskSpace(int diskSpace) {
 	this->diskSpace = diskSpace;
 }
 
-void PC::setGpu(string gpu) {
+void PC::setGpu(char* gpu) {
 	this->gpu = gpu;
 }

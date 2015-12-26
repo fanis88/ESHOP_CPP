@@ -147,6 +147,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="ProductBase.h" />
+    <ClInclude Include="ProductDAO.h" />
     <ClInclude Include="Smartphone.h" />
     <ClInclude Include="TV.h" />
     <ClInclude Include="UserBase.h" />
@@ -164,6 +165,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="Eshop-App_TemporaryKey.pfx" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png" />
@@ -192,12 +194,24 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Product.cpp" />
+    <ClCompile Include="ProductBase.cpp" />
+    <ClCompile Include="ProductDAO.cpp" />
     <ClCompile Include="Smartphone.cpp" />
     <ClCompile Include="TV.cpp" />
     <ClCompile Include="UserBase.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\sqlite.redist.3.8.4.2\build\native\sqlite.redist.targets" Condition="Exists('..\packages\sqlite.redist.3.8.4.2\build\native\sqlite.redist.targets')" />
+    <Import Project="..\packages\sqlite.3.8.4.2\build\native\sqlite.targets" Condition="Exists('..\packages\sqlite.3.8.4.2\build\native\sqlite.targets')" />
+    <Import Project="..\packages\sqlite.symbols.3.8.4.2\build\native\sqlite.symbols.targets" Condition="Exists('..\packages\sqlite.symbols.3.8.4.2\build\native\sqlite.symbols.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\sqlite.redist.3.8.4.2\build\native\sqlite.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sqlite.redist.3.8.4.2\build\native\sqlite.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\sqlite.3.8.4.2\build\native\sqlite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sqlite.3.8.4.2\build\native\sqlite.targets'))" />
+    <Error Condition="!Exists('..\packages\sqlite.symbols.3.8.4.2\build\native\sqlite.symbols.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sqlite.symbols.3.8.4.2\build\native\sqlite.symbols.targets'))" />
+  </Target>
 </Project>
