@@ -4,6 +4,7 @@ using namespace std;
 
 class UserBase {
 public:
+	UserBase();
 	UserBase(string username, string password);
 	string getUsername() const;
 	string getPassword() const;

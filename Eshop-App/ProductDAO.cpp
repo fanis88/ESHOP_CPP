@@ -5,7 +5,7 @@ ProductDAO::ProductDAO(sqlite3* database) {
 	db = database;
 }
 
-int ProductDAO::insertPCInDB(PC product, int productType, int availability) {
+int ProductDAO::insertProductInDB(PC product, int productType, int availability) {
 	if (!db) {
 		fprintf(stderr, "Invalid or unset database.");
 		return 0;
@@ -16,25 +16,25 @@ int ProductDAO::insertPCInDB(PC product, int productType, int availability) {
 	const char *pzTest;
 	char *szSQL;
 
-	szSQL = "insert into products (TYPE, SERIAL, PRICE, MODEL, MANUFACTURER, " \
+	szSQL = "insert into products (TYPE, PRICE, MODEL, MANUFACTURER, " \
 		"PHOTOURL, DESCRIPTION, RAM, CPU, DISKTYPE, DISKSPACE, GPU, SCREENSIZE" \
 		"BATTERYLIFE, CANRECORD4K, CANSHOW3D)" \
 		"values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 	int rc = sqlite3_prepare(db, szSQL, strlen(szSQL), &stmt, &pzTest);
 
 	if (rc == SQLITE_OK) {
-		sqlite3_bind_int(stmt, 1, 0);
-		sqlite3_bind_int(stmt, 2, product.getSerial());
-		sqlite3_bind_double(stmt, 3, product.getPrice());
-		sqlite3_bind_text(stmt, 4, product.getModel(), strlen(product.getModel()), 0);
-		sqlite3_bind_text(stmt, 5, product.getManufacturer(), strlen(product.getManufacturer()), 0);
-		sqlite3_bind_text(stmt, 6, product.getPhotoUrl(), strlen(product.getPhotoUrl()), 0);
-		sqlite3_bind_text(stmt, 7, product.getDescription(), strlen(product.getDescription()), 0);
-		sqlite3_bind_int(stmt, 8, product.getRam());
-		sqlite3_bind_double(stmt, 9, product.getCpu());
-		sqlite3_bind_text(stmt, 10, product.getDiskType(), strlen(product.getDiskType()), 0);
-		sqlite3_bind_int(stmt, 11, product.getDiskSpace());
-		sqlite3_bind_text(stmt, 12, product.getGpu(), strlen(product.getGpu()), 0);
+		int index = 1;
+		sqlite3_bind_int(stmt, index++, 0);
+		sqlite3_bind_double(stmt, index++, product.getPrice());
+		sqlite3_bind_text(stmt, index++, product.getModel(), strlen(product.getModel()), 0);
+		sqlite3_bind_text(stmt, index++, product.getManufacturer(), strlen(product.getManufacturer()), 0);
+		sqlite3_bind_text(stmt, index++, product.getPhotoUrl(), strlen(product.getPhotoUrl()), 0);
+		sqlite3_bind_text(stmt, index++, product.getDescription(), strlen(product.getDescription()), 0);
+		sqlite3_bind_int(stmt, index++, product.getRam());
+		sqlite3_bind_double(stmt, index++, product.getCpu());
+		sqlite3_bind_text(stmt, index++, product.getDiskType(), strlen(product.getDiskType()), 0);
+		sqlite3_bind_int(stmt, index++, product.getDiskSpace());
+		sqlite3_bind_text(stmt, index++, product.getGpu(), strlen(product.getGpu()), 0);
 
 		int res = sqlite3_step(stmt);
 		sqlite3_finalize(stmt);
@@ -44,7 +44,7 @@ int ProductDAO::insertPCInDB(PC product, int productType, int availability) {
 	return 0;
 }
 
-int ProductDAO::insertSmartphoneInDB(Smartphone product, int productType, int availability) {
+int ProductDAO::insertProductInDB(Smartphone product, int productType, int availability) {
 	if (!db) {
 		fprintf(stderr, "Invalid or unset database.");
 		return 0;
@@ -55,23 +55,25 @@ int ProductDAO::insertSmartphoneInDB(Smartphone product, int productType, int av
 	const char *pzTest;
 	char *szSQL;
 
-	szSQL = "insert into products (TYPE, SERIAL, PRICE, MODEL, MANUFACTURER, " \
+	szSQL = "insert into products (TYPE, PRICE, MODEL, MANUFACTURER, " \
 		"PHOTOURL, DESCRIPTION, RAM, CPU, DISKTYPE, DISKSPACE, GPU, SCREENSIZE" \
 		"BATTERYLIFE, CANRECORD4K, CANSHOW3D)" \
 		"values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 	int rc = sqlite3_prepare(db, szSQL, strlen(szSQL), &stmt, &pzTest);
 
 	if (rc == SQLITE_OK) {
-		sqlite3_bind_int(stmt, 1, 0);
-		sqlite3_bind_int(stmt, 2, product.getSerial());
-		sqlite3_bind_double(stmt, 3, product.getPrice());
-		sqlite3_bind_text(stmt, 4, product.getModel(), strlen(product.getModel()), 0);
-		sqlite3_bind_text(stmt, 5, product.getManufacturer(), strlen(product.getManufacturer()), 0);
-		sqlite3_bind_text(stmt, 6, product.getPhotoUrl(), strlen(product.getPhotoUrl()), 0);
-		sqlite3_bind_text(stmt, 7, product.getDescription(), strlen(product.getDescription()), 0);
-		sqlite3_bind_double(stmt, 13, product.getScreenSize());
-		sqlite3_bind_int(stmt, 14, product.getBatteryLife());
-		sqlite3_bind_int(stmt, 15, product.getCanRecord4k());
+		int index = 1;
+		sqlite3_bind_int(stmt, index++, 0);
+		sqlite3_bind_double(stmt, index++, product.getPrice());
+		sqlite3_bind_text(stmt, index++, product.getModel(), strlen(product.getModel()), 0);
+		sqlite3_bind_text(stmt, index++, product.getManufacturer(), strlen(product.getManufacturer()), 0);
+		sqlite3_bind_text(stmt, index++, product.getPhotoUrl(), strlen(product.getPhotoUrl()), 0);
+		sqlite3_bind_text(stmt, index++, product.getDescription(), strlen(product.getDescription()), 0);
+		//Skip PC product properties
+		index = 13;
+		sqlite3_bind_double(stmt, index++, product.getScreenSize());
+		sqlite3_bind_int(stmt, index++, product.getBatteryLife());
+		sqlite3_bind_int(stmt, index++, product.getCanRecord4k());
 
 		int res = sqlite3_step(stmt);
 		sqlite3_finalize(stmt);
@@ -81,7 +83,7 @@ int ProductDAO::insertSmartphoneInDB(Smartphone product, int productType, int av
 	return 0;
 }
 
-int ProductDAO::insertTVInDB(TV product, int productType, int availability) {
+int ProductDAO::insertProductInDB(TV product, int productType, int availability) {
 	if (!db) {
 		fprintf(stderr, "Invalid or unset database.");
 		return 0;
@@ -92,22 +94,26 @@ int ProductDAO::insertTVInDB(TV product, int productType, int availability) {
 	const char *pzTest;
 	char *szSQL;
 
-	szSQL = "insert into products (TYPE, SERIAL, PRICE, MODEL, MANUFACTURER, " \
+	szSQL = "insert into products (TYPE, PRICE, MODEL, MANUFACTURER, " \
 		"PHOTOURL, DESCRIPTION, RAM, CPU, DISKTYPE, DISKSPACE, GPU, SCREENSIZE" \
 		"BATTERYLIFE, CANRECORD4K, CANSHOW3D)" \
 		"values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 	int rc = sqlite3_prepare(db, szSQL, strlen(szSQL), &stmt, &pzTest);
 
 	if (rc == SQLITE_OK) {
-		sqlite3_bind_int(stmt, 1, 0);
-		sqlite3_bind_int(stmt, 2, product.getSerial());
-		sqlite3_bind_double(stmt, 3, product.getPrice());
-		sqlite3_bind_text(stmt, 4, product.getModel(), strlen(product.getModel()), 0);
-		sqlite3_bind_text(stmt, 5, product.getManufacturer(), strlen(product.getManufacturer()), 0);
-		sqlite3_bind_text(stmt, 6, product.getPhotoUrl(), strlen(product.getPhotoUrl()), 0);
-		sqlite3_bind_text(stmt, 7, product.getDescription(), strlen(product.getDescription()), 0);
-		sqlite3_bind_double(stmt, 13, product.getScreenSize());
-		sqlite3_bind_int(stmt, 16, product.getCanShow3d());
+		int index = 1;
+		sqlite3_bind_int(stmt, index++, 0);
+		sqlite3_bind_double(stmt, index++, product.getPrice());
+		sqlite3_bind_text(stmt, index++, product.getModel(), strlen(product.getModel()), 0);
+		sqlite3_bind_text(stmt, index++, product.getManufacturer(), strlen(product.getManufacturer()), 0);
+		sqlite3_bind_text(stmt, index++, product.getPhotoUrl(), strlen(product.getPhotoUrl()), 0);
+		sqlite3_bind_text(stmt, index++, product.getDescription(), strlen(product.getDescription()), 0);
+		//Skip PC product properties
+		index = 13;
+		sqlite3_bind_double(stmt, index++, product.getScreenSize());
+		//Skip Smartphone product properties
+		index = 16;
+		sqlite3_bind_int(stmt, index++, product.getCanShow3d());
 
 		int res = sqlite3_step(stmt);
 		sqlite3_finalize(stmt);
@@ -117,7 +123,7 @@ int ProductDAO::insertTVInDB(TV product, int productType, int availability) {
 	return 0;
 }
 
-int ProductDAO::updatePCInDB(int serial, PC updatedProduct) {
+int ProductDAO::updateProductInDB(int serial, PC updatedProduct) {
 	if (!db) {
 		fprintf(stderr, "Invalid or unset database.");
 		return 0;
@@ -130,22 +136,22 @@ int ProductDAO::updatePCInDB(int serial, PC updatedProduct) {
 
 	szSQL = "update products set PRICE = ?, MODEL = ?, " \
 		"MANUFACTURER = ?, PHOTOURL = ?, DESCRIPTION = ?, RAM = ?, CPU = ?, " \
-		"DISKTYPE = ?, DISKSPACE = ?, GPU = ?, SCREENSIZE = ?, BATTERYLIFE = ?, " \
-		"CANRECORD4K = ?, CANSHOW3D = ? WHERE SERIAL = ?";
+		"DISKTYPE = ?, DISKSPACE = ?, GPU = ? WHERE SERIAL = ?";
 	int rc = sqlite3_prepare(db, szSQL, strlen(szSQL), &stmt, &pzTest);
 
 	if (rc == SQLITE_OK) {
-		sqlite3_bind_double(stmt, 1, updatedProduct.getPrice());
-		sqlite3_bind_text(stmt, 2, updatedProduct.getModel(), strlen(updatedProduct.getModel()), 0);
-		sqlite3_bind_text(stmt, 3, updatedProduct.getManufacturer(), strlen(updatedProduct.getManufacturer()), 0);
-		sqlite3_bind_text(stmt, 4, updatedProduct.getPhotoUrl(), strlen(updatedProduct.getPhotoUrl()), 0);
-		sqlite3_bind_text(stmt, 5, updatedProduct.getDescription(), strlen(updatedProduct.getDescription()), 0);
-		sqlite3_bind_int(stmt, 6, updatedProduct.getRam());
-		sqlite3_bind_double(stmt, 7, updatedProduct.getCpu());
-		sqlite3_bind_text(stmt, 8, updatedProduct.getDiskType(), strlen(updatedProduct.getDiskType()), 0);
-		sqlite3_bind_int(stmt, 9, updatedProduct.getDiskSpace());
-		sqlite3_bind_text(stmt, 10, updatedProduct.getGpu(), strlen(updatedProduct.getGpu()), 0);
-		sqlite3_bind_int(stmt, 15, updatedProduct.getSerial());
+		int index = 1;
+		sqlite3_bind_double(stmt, index++, updatedProduct.getPrice());
+		sqlite3_bind_text(stmt, index++, updatedProduct.getModel(), strlen(updatedProduct.getModel()), 0);
+		sqlite3_bind_text(stmt, index++, updatedProduct.getManufacturer(), strlen(updatedProduct.getManufacturer()), 0);
+		sqlite3_bind_text(stmt, index++, updatedProduct.getPhotoUrl(), strlen(updatedProduct.getPhotoUrl()), 0);
+		sqlite3_bind_text(stmt, index++, updatedProduct.getDescription(), strlen(updatedProduct.getDescription()), 0);
+		sqlite3_bind_int(stmt, index++, updatedProduct.getRam());
+		sqlite3_bind_double(stmt, index++, updatedProduct.getCpu());
+		sqlite3_bind_text(stmt, index++, updatedProduct.getDiskType(), strlen(updatedProduct.getDiskType()), 0);
+		sqlite3_bind_int(stmt, index++, updatedProduct.getDiskSpace());
+		sqlite3_bind_text(stmt, index++, updatedProduct.getGpu(), strlen(updatedProduct.getGpu()), 0);
+		sqlite3_bind_int(stmt, index++, updatedProduct.getSerial());
 		int res = sqlite3_step(stmt);
 		sqlite3_finalize(stmt);
 		return res;
@@ -154,7 +160,7 @@ int ProductDAO::updatePCInDB(int serial, PC updatedProduct) {
 	return 0;
 }
 
-int ProductDAO::updateSmartphoneInDB(int serial, Smartphone updatedProduct) {
+int ProductDAO::updateProductInDB(int serial, Smartphone updatedProduct) {
 	if (!db) {
 		fprintf(stderr, "Invalid or unset database.");
 		return 0;
@@ -166,21 +172,21 @@ int ProductDAO::updateSmartphoneInDB(int serial, Smartphone updatedProduct) {
 	char *szSQL;
 
 	szSQL = "update products set PRICE = ?, MODEL = ?, " \
-		"MANUFACTURER = ?, PHOTOURL = ?, DESCRIPTION = ?, RAM = ?, CPU = ?, " \
-		"DISKTYPE = ?, DISKSPACE = ?, GPU = ?, SCREENSIZE = ?, BATTERYLIFE = ?, " \
-		"CANRECORD4K = ?, CANSHOW3D = ? WHERE SERIAL = ?";
+		"MANUFACTURER = ?, PHOTOURL = ?, DESCRIPTION = ?, SCREENSIZE = ?, " \
+		"BATTERYLIFE = ?, CANRECORD4K = ? WHERE SERIAL = ?";
 	int rc = sqlite3_prepare(db, szSQL, strlen(szSQL), &stmt, &pzTest);
 
 	if (rc == SQLITE_OK) {
-		sqlite3_bind_double(stmt, 1, updatedProduct.getPrice());
-		sqlite3_bind_text(stmt, 2, updatedProduct.getModel(), strlen(updatedProduct.getModel()), 0);
-		sqlite3_bind_text(stmt, 3, updatedProduct.getManufacturer(), strlen(updatedProduct.getManufacturer()), 0);
-		sqlite3_bind_text(stmt, 4, updatedProduct.getPhotoUrl(), strlen(updatedProduct.getPhotoUrl()), 0);
-		sqlite3_bind_text(stmt, 5, updatedProduct.getDescription(), strlen(updatedProduct.getDescription()), 0);
-		sqlite3_bind_double(stmt, 11, updatedProduct.getScreenSize());
-		sqlite3_bind_int(stmt, 12, updatedProduct.getBatteryLife());
-		sqlite3_bind_int(stmt, 13, updatedProduct.getCanRecord4k());
-		sqlite3_bind_int(stmt, 15, updatedProduct.getSerial());
+		int index = 1;
+		sqlite3_bind_double(stmt, index++, updatedProduct.getPrice());
+		sqlite3_bind_text(stmt, index++, updatedProduct.getModel(), strlen(updatedProduct.getModel()), 0);
+		sqlite3_bind_text(stmt, index++, updatedProduct.getManufacturer(), strlen(updatedProduct.getManufacturer()), 0);
+		sqlite3_bind_text(stmt, index++, updatedProduct.getPhotoUrl(), strlen(updatedProduct.getPhotoUrl()), 0);
+		sqlite3_bind_text(stmt, index++, updatedProduct.getDescription(), strlen(updatedProduct.getDescription()), 0);
+		sqlite3_bind_double(stmt, index++, updatedProduct.getScreenSize());
+		sqlite3_bind_int(stmt, index++, updatedProduct.getBatteryLife());
+		sqlite3_bind_int(stmt, index++, updatedProduct.getCanRecord4k());
+		sqlite3_bind_int(stmt, index++, updatedProduct.getSerial());
 		int res = sqlite3_step(stmt);
 		sqlite3_finalize(stmt);
 		return res;
@@ -189,7 +195,7 @@ int ProductDAO::updateSmartphoneInDB(int serial, Smartphone updatedProduct) {
 	return 0;
 }
 
-int ProductDAO::updateTVInDB(int serial, TV updatedProduct) {
+int ProductDAO::updateProductInDB(int serial, TV updatedProduct) {
 	if (!db) {
 		fprintf(stderr, "Invalid or unset database.");
 		return 0;
@@ -201,20 +207,20 @@ int ProductDAO::updateTVInDB(int serial, TV updatedProduct) {
 	char *szSQL;
 
 	szSQL = "update products set PRICE = ?, MODEL = ?, " \
-		"MANUFACTURER = ?, PHOTOURL = ?, DESCRIPTION = ?, RAM = ?, CPU = ?, " \
-		"DISKTYPE = ?, DISKSPACE = ?, GPU = ?, SCREENSIZE = ?, BATTERYLIFE = ?, " \
-		"CANRECORD4K = ?, CANSHOW3D = ? WHERE SERIAL = ?";
+		"MANUFACTURER = ?, PHOTOURL = ?, DESCRIPTION = ?, " \
+		"SCREENSIZE = ?, CANSHOW3D = ? WHERE SERIAL = ?";
 	int rc = sqlite3_prepare(db, szSQL, strlen(szSQL), &stmt, &pzTest);
 
 	if (rc == SQLITE_OK) {
-		sqlite3_bind_double(stmt, 1, updatedProduct.getPrice());
-		sqlite3_bind_text(stmt, 2, updatedProduct.getModel(), strlen(updatedProduct.getModel()), 0);
-		sqlite3_bind_text(stmt, 3, updatedProduct.getManufacturer(), strlen(updatedProduct.getManufacturer()), 0);
-		sqlite3_bind_text(stmt, 4, updatedProduct.getPhotoUrl(), strlen(updatedProduct.getPhotoUrl()), 0);
-		sqlite3_bind_text(stmt, 5, updatedProduct.getDescription(), strlen(updatedProduct.getDescription()), 0);
-		sqlite3_bind_double(stmt, 11, updatedProduct.getScreenSize());
-		sqlite3_bind_int(stmt, 14, updatedProduct.getCanShow3d());
-		sqlite3_bind_int(stmt, 15, updatedProduct.getSerial());
+		int index = 1;
+		sqlite3_bind_double(stmt, index++, updatedProduct.getPrice());
+		sqlite3_bind_text(stmt, index++, updatedProduct.getModel(), strlen(updatedProduct.getModel()), 0);
+		sqlite3_bind_text(stmt, index++, updatedProduct.getManufacturer(), strlen(updatedProduct.getManufacturer()), 0);
+		sqlite3_bind_text(stmt, index++, updatedProduct.getPhotoUrl(), strlen(updatedProduct.getPhotoUrl()), 0);
+		sqlite3_bind_text(stmt, index++, updatedProduct.getDescription(), strlen(updatedProduct.getDescription()), 0);
+		sqlite3_bind_double(stmt, index++, updatedProduct.getScreenSize());
+		sqlite3_bind_int(stmt, index++, updatedProduct.getCanShow3d());
+		sqlite3_bind_int(stmt, index++, updatedProduct.getSerial());
 		int res = sqlite3_step(stmt);
 		sqlite3_finalize(stmt);
 		return res;
@@ -238,8 +244,9 @@ int ProductDAO::updateProductItemsInDB(int serial, int availability) {
 	int rc = sqlite3_prepare(db, szSQL, strlen(szSQL), &stmt, &pzTest);
 
 	if (rc == SQLITE_OK) {
-		sqlite3_bind_int(stmt, 1, availability);
-		sqlite3_bind_int(stmt, 2, serial);
+		int index = 1;
+		sqlite3_bind_int(stmt, index++, availability);
+		sqlite3_bind_int(stmt, index++, serial);
 		int res = sqlite3_step(stmt);
 		sqlite3_finalize(stmt);
 		return res;
@@ -300,11 +307,11 @@ int ProductDAO::getProductAvailabilityFromDB(int serial) {
 	return 0;
 }
 
-ProductBase ProductDAO::fetchProductBySerialFromDB(int serial) {
+Availability ProductDAO::fetchProductBySerialFromDB(int serial) {
 	if (!db) {
 		fprintf(stderr, "Invalid or unset database.");
-		ProductBase product;
-		return product;
+		Availability avail;
+		return avail;
 	}
 
 	char *zErrMsg = 0;
@@ -321,69 +328,85 @@ ProductBase ProductDAO::fetchProductBySerialFromDB(int serial) {
 
 		res = sqlite3_step(stmt);
 		if (res == SQLITE_ROW) {
-			if (sqlite3_column_int(stmt, 1) == 0)			//Product type: PC
+			if (sqlite3_column_int(stmt, 2) == 0)			//Product type: PC
 			{
-				PC fetchedProduct = PC(sqlite3_column_int(stmt, 2), sqlite3_column_double(stmt, 3));
-				fetchedProduct.setModel((char*)sqlite3_column_text(stmt, 4));
-				fetchedProduct.setManufacturer((char*)sqlite3_column_text(stmt, 5));
-				fetchedProduct.setPhotoUrl((char*)sqlite3_column_text(stmt, 6));
-				fetchedProduct.setDescription((char*)sqlite3_column_text(stmt, 7));
-				fetchedProduct.setRam(sqlite3_column_int(stmt, 8));
-				fetchedProduct.setCpu(sqlite3_column_double(stmt, 9));
-				fetchedProduct.setDiskType((char*)sqlite3_column_text(stmt, 10));
-				fetchedProduct.setDiskSpace(sqlite3_column_int(stmt, 11));
-				fetchedProduct.setGpu((char*)sqlite3_column_text(stmt, 12));
+				int index = 1;
+				PC fetchedProduct = PC(sqlite3_column_int(stmt, index+=2), sqlite3_column_double(stmt, index++));
+				fetchedProduct.setModel((char*)sqlite3_column_text(stmt, index++));
+				fetchedProduct.setManufacturer((char*)sqlite3_column_text(stmt, index++));
+				fetchedProduct.setPhotoUrl((char*)sqlite3_column_text(stmt, index++));
+				fetchedProduct.setDescription((char*)sqlite3_column_text(stmt, index++));
+				fetchedProduct.setRam(sqlite3_column_int(stmt, index++));
+				fetchedProduct.setCpu(sqlite3_column_double(stmt, index++));
+				fetchedProduct.setDiskType((char*)sqlite3_column_text(stmt, index++));
+				fetchedProduct.setDiskSpace(sqlite3_column_int(stmt, index++));
+				fetchedProduct.setGpu((char*)sqlite3_column_text(stmt, index++));
+				int availability = sqlite3_column_int(stmt, 17);
 				sqlite3_finalize(stmt);
-				return fetchedProduct;
+				Availability avail(fetchedProduct, availability);
+				return avail;
 			}
-			else if (sqlite3_column_int(stmt, 1) == 1) {	//Product type: Smartphone
-				Smartphone fetchedProduct = Smartphone(sqlite3_column_int(stmt, 2), sqlite3_column_double(stmt, 3));
-				fetchedProduct.setModel((char*)sqlite3_column_text(stmt, 4));
-				fetchedProduct.setManufacturer((char*)sqlite3_column_text(stmt, 5));
-				fetchedProduct.setPhotoUrl((char*)sqlite3_column_text(stmt, 6));
-				fetchedProduct.setDescription((char*)sqlite3_column_text(stmt, 7));
-				fetchedProduct.setScreenSize(sqlite3_column_double(stmt, 13));
-				fetchedProduct.setBatteryLife(sqlite3_column_int(stmt, 14));
-				fetchedProduct.setCanRecord4k(sqlite3_column_int(stmt, 15));
+			else if (sqlite3_column_int(stmt, 2) == 1) {	//Product type: Smartphone
+				int index = 1;
+				Smartphone fetchedProduct = Smartphone(sqlite3_column_int(stmt, index+=2), sqlite3_column_double(stmt, index++));
+				fetchedProduct.setModel((char*)sqlite3_column_text(stmt, index++));
+				fetchedProduct.setManufacturer((char*)sqlite3_column_text(stmt, index++));
+				fetchedProduct.setPhotoUrl((char*)sqlite3_column_text(stmt, index++));
+				fetchedProduct.setDescription((char*)sqlite3_column_text(stmt, index++));
+				//Skip PC product properties
+				index = 13;
+				fetchedProduct.setScreenSize(sqlite3_column_double(stmt, index++));
+				fetchedProduct.setBatteryLife(sqlite3_column_int(stmt, index++));
+				fetchedProduct.setCanRecord4k(sqlite3_column_int(stmt, index++));
+				int availability = sqlite3_column_int(stmt, 17);
 				sqlite3_finalize(stmt);
-				return fetchedProduct;
+				Availability avail(fetchedProduct, availability);
+				return avail;
 			}
 			else {											//Product type: TV
-				TV fetchedProduct = TV(sqlite3_column_int(stmt, 2), sqlite3_column_double(stmt, 3));
-				fetchedProduct.setModel((char*)sqlite3_column_text(stmt, 4));
-				fetchedProduct.setManufacturer((char*)sqlite3_column_text(stmt, 5));
-				fetchedProduct.setPhotoUrl((char*)sqlite3_column_text(stmt, 6));
-				fetchedProduct.setDescription((char*)sqlite3_column_text(stmt, 7));
-				fetchedProduct.setScreenSize(sqlite3_column_double(stmt, 13));
-				fetchedProduct.setCanShow3d(sqlite3_column_int(stmt, 16));
+				int index = 1;
+				TV fetchedProduct = TV(sqlite3_column_int(stmt, index+=2), sqlite3_column_double(stmt, index++));
+				fetchedProduct.setModel((char*)sqlite3_column_text(stmt, index++));
+				fetchedProduct.setManufacturer((char*)sqlite3_column_text(stmt, index++));
+				fetchedProduct.setPhotoUrl((char*)sqlite3_column_text(stmt, index++));
+				fetchedProduct.setDescription((char*)sqlite3_column_text(stmt, index++));
+				//Skip PC product properties
+				index = 13;
+				fetchedProduct.setScreenSize(sqlite3_column_double(stmt, index++));
+				//Skip Smartphone product properties
+				index = 16;
+				fetchedProduct.setCanShow3d(sqlite3_column_int(stmt, index++));
+				int availability = sqlite3_column_int(stmt, 17);
 				sqlite3_finalize(stmt);
-				return fetchedProduct;
+				Availability avail(fetchedProduct, availability);
+				return avail;
 			}
 		}
 		else if (res == SQLITE_DONE) {
 			fprintf(stderr, "No product with given serial number.");
-			ProductBase product;
-			return product;
+			Availability avail;
+			return avail;
 		}
 		else {
 			fprintf(stderr, "Database error while fetching product.");
 			ProductBase product;
-			return product;
+			Availability avail;
+			return avail;
 		}
 	}
 }
 
-vector<ProductBase> ProductDAO::fetchAllProductsFromDB() {
+vector<Availability> ProductDAO::fetchAllProductsFromDB() {
 	if (!db) {
 		fprintf(stderr, "Invalid or unset database.");
-		return vector<ProductBase>();
+		return vector<Availability>();
 	}
 
 	char *zErrMsg = 0;
 	sqlite3_stmt *stmt;
 	const char *pzTest;
 	char *szSQL;
-	vector <ProductBase> products;
+	vector <Availability> products;
 
 	szSQL = "SELECT * from products";
 	int rc = sqlite3_prepare(db, szSQL, strlen(szSQL), &stmt, &pzTest);
@@ -394,43 +417,58 @@ vector<ProductBase> ProductDAO::fetchAllProductsFromDB() {
 		while (1) {
 			res = sqlite3_step(stmt);
 			if (res == SQLITE_ROW) {
-				if (sqlite3_column_int(stmt, 1) == 0)			//Product type: PC
+				if (sqlite3_column_int(stmt, 2) == 0)			//Product type: PC
 				{
-					PC fetchedProduct = PC(sqlite3_column_int(stmt, 2), sqlite3_column_double(stmt, 3));
-					fetchedProduct.setModel((char*)sqlite3_column_text(stmt, 4));
-					fetchedProduct.setManufacturer((char*)sqlite3_column_text(stmt, 5));
-					fetchedProduct.setPhotoUrl((char*)sqlite3_column_text(stmt, 6));
-					fetchedProduct.setDescription((char*)sqlite3_column_text(stmt, 7));
-					fetchedProduct.setRam(sqlite3_column_int(stmt, 8));
-					fetchedProduct.setCpu(sqlite3_column_double(stmt, 9));
-					fetchedProduct.setDiskType((char*)sqlite3_column_text(stmt, 10));
-					fetchedProduct.setDiskSpace(sqlite3_column_int(stmt, 11));
-					fetchedProduct.setGpu((char*)sqlite3_column_text(stmt, 12));
+					int index = 1;
+					PC fetchedProduct = PC(sqlite3_column_int(stmt, index+=2), sqlite3_column_double(stmt, index++));
+					fetchedProduct.setModel((char*)sqlite3_column_text(stmt, index++));
+					fetchedProduct.setManufacturer((char*)sqlite3_column_text(stmt, index++));
+					fetchedProduct.setPhotoUrl((char*)sqlite3_column_text(stmt, index++));
+					fetchedProduct.setDescription((char*)sqlite3_column_text(stmt, index++));
+					fetchedProduct.setRam(sqlite3_column_int(stmt, index++));
+					fetchedProduct.setCpu(sqlite3_column_double(stmt, index++));
+					fetchedProduct.setDiskType((char*)sqlite3_column_text(stmt, index++));
+					fetchedProduct.setDiskSpace(sqlite3_column_int(stmt, index++));
+					fetchedProduct.setGpu((char*)sqlite3_column_text(stmt, index++));
+					int availability = sqlite3_column_int(stmt, 17);
 					sqlite3_finalize(stmt);
-					products.push_back(fetchedProduct);
+					Availability avail(fetchedProduct, availability);
+					products.push_back(avail);
 				}
-				else if (sqlite3_column_int(stmt, 1) == 1) {	//Product type: Smartphone
-					Smartphone fetchedProduct = Smartphone(sqlite3_column_int(stmt, 2), sqlite3_column_double(stmt, 3));
-					fetchedProduct.setModel((char*)sqlite3_column_text(stmt, 4));
-					fetchedProduct.setManufacturer((char*)sqlite3_column_text(stmt, 5));
-					fetchedProduct.setPhotoUrl((char*)sqlite3_column_text(stmt, 6));
-					fetchedProduct.setDescription((char*)sqlite3_column_text(stmt, 7));
-					fetchedProduct.setScreenSize(sqlite3_column_double(stmt, 13));
-					fetchedProduct.setBatteryLife(sqlite3_column_int(stmt, 14));
-					fetchedProduct.setCanRecord4k(sqlite3_column_int(stmt, 15));
+				else if (sqlite3_column_int(stmt, 2) == 1) {	//Product type: Smartphone
+					int index = 1;
+					Smartphone fetchedProduct = Smartphone(sqlite3_column_int(stmt, index+=2), sqlite3_column_double(stmt, index++));
+					fetchedProduct.setModel((char*)sqlite3_column_text(stmt, index++));
+					fetchedProduct.setManufacturer((char*)sqlite3_column_text(stmt, index++));
+					fetchedProduct.setPhotoUrl((char*)sqlite3_column_text(stmt, index++));
+					fetchedProduct.setDescription((char*)sqlite3_column_text(stmt, index++));
+					//Skip PC product properties
+					index = 13;
+					fetchedProduct.setScreenSize(sqlite3_column_double(stmt, index++));
+					fetchedProduct.setBatteryLife(sqlite3_column_int(stmt, index++));
+					fetchedProduct.setCanRecord4k(sqlite3_column_int(stmt, index++));
+					int availability = sqlite3_column_int(stmt, 17);
 					sqlite3_finalize(stmt);
-					products.push_back(fetchedProduct);
+					Availability avail(fetchedProduct, availability);
+					products.push_back(avail);
 				}
 				else {											//Product type: TV
-					TV fetchedProduct = TV(sqlite3_column_int(stmt, 2), sqlite3_column_double(stmt, 3));
-					fetchedProduct.setModel((char*)sqlite3_column_text(stmt, 4));
-					fetchedProduct.setManufacturer((char*)sqlite3_column_text(stmt, 5));
-					fetchedProduct.setPhotoUrl((char*)sqlite3_column_text(stmt, 6));
-					fetchedProduct.setDescription((char*)sqlite3_column_text(stmt, 7));
-					fetchedProduct.setScreenSize(sqlite3_column_double(stmt, 13));
-					fetchedProduct.setCanShow3d(sqlite3_column_int(stmt, 16));
+					int index = 1;
+					TV fetchedProduct = TV(sqlite3_column_int(stmt, index+=2), sqlite3_column_double(stmt, index++));
+					fetchedProduct.setModel((char*)sqlite3_column_text(stmt, index++));
+					fetchedProduct.setManufacturer((char*)sqlite3_column_text(stmt, index++));
+					fetchedProduct.setPhotoUrl((char*)sqlite3_column_text(stmt, index++));
+					fetchedProduct.setDescription((char*)sqlite3_column_text(stmt, index++));
+					//Skip PC product properties
+					index = 13;
+					fetchedProduct.setScreenSize(sqlite3_column_double(stmt, index++));
+					//Skip Smartphone product properties
+					index = 16;
+					fetchedProduct.setCanShow3d(sqlite3_column_int(stmt, index++));
+					int availability = sqlite3_column_int(stmt, 17);
 					sqlite3_finalize(stmt);
-					products.push_back(fetchedProduct);
+					Availability avail(fetchedProduct, availability);
+					products.push_back(avail);
 				}
 			}
 			if (res == SQLITE_DONE || res == SQLITE_ERROR)

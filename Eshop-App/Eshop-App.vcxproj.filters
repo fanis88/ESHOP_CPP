@@ -43,7 +43,9 @@
     <ClCompile Include="ProductBase.cpp">
       <Filter>Products</Filter>
     </ClCompile>
-    <ClCompile Include="ProductDAO.cpp" />
+    <ClCompile Include="ProductDAO.cpp">
+      <Filter>Products</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -70,7 +72,9 @@
     <ClInclude Include="Customer.h">
       <Filter>Users</Filter>
     </ClInclude>
-    <ClInclude Include="ProductDAO.h" />
+    <ClInclude Include="ProductDAO.h">
+      <Filter>Products</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png">
